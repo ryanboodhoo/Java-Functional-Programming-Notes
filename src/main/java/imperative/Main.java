@@ -1,55 +1,54 @@
 package imperative;
 
-import java.util.List;
-
-
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Main {
+import static imperative.Main.Gender.*;
 
+public class Main {
     public static void main(String[] args) {
+
         List<Person> people = List.of(
                 new Person("John", Gender.MALE),
                 new Person("Maria", Gender.FEMALE),
                 new Person("Aisha", Gender.FEMALE),
                 new Person("Alex", Gender.MALE),
-                new Person("Alice", Gender.MALE)
+                new Person("Alice", Gender.FEMALE)
         );
 
-        //print women
+        System.out.println("// Imperative approach");
+        // Imperative approach
 
-        //Imperative approach
         List<Person> females = new ArrayList<>();
-        for ( Person p : people ) {
-            if ( Gender.FEMALE.equals(p.gender) ) {
-                females.add(p);
+
+        for (Person person : people) {
+            if (FEMALE.equals(person.gender)) {
+                females.add(person);
             }
         }
 
-        for( Person female: females ){
+        for (Person female : females) {
             System.out.println(female);
         }
 
-        System.out.println("Declarative");
+        System.out.println("// Declarative approach");
+        // Declarative approach
 
-        //Declarative approach
+        Predicate<Person> personPredicate = person -> FEMALE.equals(person.gender);
 
-        Predicate<Person> personPredicate = person -> Gender.FEMALE.equals(person.gender);
-        people.stream()
+        List<Person> females2 = people.stream()
                 .filter(personPredicate)
-                .forEach(System.out::println);
-
+                .collect(Collectors.toList());
+        females2.forEach(System.out::println);
     }
 
     static class Person {
         private final String name;
         private final Gender gender;
 
-        public Person(String name, Gender gender) {
+        Person(String name, Gender gender) {
             this.name = name;
             this.gender = gender;
         }
@@ -66,5 +65,4 @@ public class Main {
     enum Gender {
         MALE, FEMALE
     }
-
 }
