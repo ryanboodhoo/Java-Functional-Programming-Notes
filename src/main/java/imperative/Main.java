@@ -62,7 +62,7 @@ public class Main {
         }
     }
 
-    enum Gender {
+    public enum Gender {
         MALE, FEMALE
     }
 }
